@@ -1,7 +1,9 @@
 package IntroToStacks;
 
+import java.awt.RenderingHints.Key;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Stack;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -10,26 +12,33 @@ import javax.swing.JPanel;
 public class TextUndoRedo implements KeyListener {
 	JFrame f = new JFrame();
 	JPanel p = new JPanel();
-JLabel L = new JLabel();
+	String x = "";
+	JLabel L = new JLabel();
+	Stack<Character> C = new Stack<Character>();
+
 	public static void main(String[] args) {
+
 		TextUndoRedo Text = new TextUndoRedo();
 		Text.create();
-		
+
 	}
 
 	void create() {
 		f.add(p);
-		f.setSize(200, 200);
+f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setVisible(true);
-		p.addKeyListener(this);
+		f.addKeyListener(this);
+		p.add(L);
+		f.setSize(200, 200);
 	}
-	/*Create a JFrame with a JPanel and a JLabel.
+	/*
+	 * Create a JFrame with a JPanel and a JLabel.
 	 * 
 	 * Every time a key is pressed, add that character to the JLabel. It should look
 	 * like a basic text editor.
 	 * 
 	 * Make it so that every time the BACKSPACE key is pressed, the last character
-	 * is erased from the JLabel. Save that deleted character onto a Stack of
+	 * is erased from the JLabel. Save that deleted charsfdfsfacter onto a Stack of
 	 * Characters.
 	 * 
 	 * Choose a key to be the Undo key. Make it so that when that key is pressed,
@@ -40,19 +49,31 @@ JLabel L = new JLabel();
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+		x += (e.getKeyChar());
+		L.setText(x);
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+		if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+			String s2 = L.getText();
+			char h = s2.charAt(s2.length() - 1);
+			String s3 = s2.substring(0,s2.length() - 1);
+			L.setText(s3);
+			System.out.println(L.getText());
+
+		}
+		if (e.getKeyCode() == KeyEvent.VK_UNDO) {
+			C.pop();
+			L.setText("" + C.pop());
+		}
+		f.repaint();
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
-	}
 
+	}
 }
